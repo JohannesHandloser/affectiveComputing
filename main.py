@@ -1,0 +1,46 @@
+from firebase.firebase_wrapper import *
+
+if __name__ == '__main__':
+
+    wrapper = Wrapper()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
