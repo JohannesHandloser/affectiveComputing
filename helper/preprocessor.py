@@ -80,7 +80,6 @@ class Preprocessor:
                                         "RMSSD(RR)", "M(Motion)", "Std(Motion)", "M(ST)", "Std(ST)", "Classified"]
         for feature_vector in feature_vector_list:
             feature_table.append_row(feature_vector)
-
         print(feature_table)
 
 
