@@ -1,44 +1,52 @@
 import statistics
 import numpy as np
 import math
+from beautifultable import BeautifulTable
 
 class Preprocessor:
+
+
+    def __init__(self):
+        self.feature_vector_list =[]
 
     # baevsky stress index (SI) -> aus RR rate berechnen
     # modalwert -> am häufigsten aufgetretene wert
 
-    def calculate_feature_vector(self, playlist_nr, motiontypes, heart_beat_rate, \
-                                 skin_temperature, rr_rate, gsr_resistance):
+    def calculate_feature_vector_list(self, timestamps, gsr_resistance, heart_beat_rate, \
+                                      rr_rate, motiontype, skin_temp, recommended_action):
+        for i in range(0, len(timestamps) - 10):
+            j = i+10
+            self.feature_vector_list.append(self.calculate_feature_vector(gsr_resistance[i:j], heart_beat_rate[i:j], \
+                                                                          rr_rate[i:j], motiontype[i:j], skin_temp[i:j],\
+                                                                          recommended_action))
+
+
+    def calculate_feature_vector(self, gsr_resistance, heart_beat_rate, rr_rate, \
+                                 motiontype, skin_temp, recommended_action):
         feature_vector = []
-        # data = heart_beat_rate, rr_rate, skin_temperature, gsr_resistance (all preprocessed)
-        counter = 1
-        for data in self.preprocess_raw_data(heart_beat_rate, rr_rate, skin_temperature, gsr_resistance, motiontypes):
-            feature_vector.append(self.calculate_mean(data))
-            feature_vector.append(self.calculate_std(data))
-
-            if counter == 2:
-                feature_vector.append(self.calculate_rmssd(list(data.values())))
-            counter += 1
-
-        feature_vector.append(playlist_nr)
+        feature_vector.append(self.calculate_mean(gsr_resistance))
+        feature_vector.append(self.calculate_std(gsr_resistance))
+        feature_vector.append(self.calculate_mean(heart_beat_rate))
+        feature_vector.append(self.calculate_std(heart_beat_rate))
+        feature_vector.append(self.calculate_mean(rr_rate))
+        feature_vector.append(self.calculate_std(rr_rate))
+        feature_vector.append(self.calculate_rmssd(rr_rate))
+        feature_vector.append(self.calculate_mean(motiontype))
+        feature_vector.append(self.calculate_std(motiontype))
+        feature_vector.append(self.calculate_mean(skin_temp))
+        feature_vector.append(self.calculate_std(skin_temp))
+        feature_vector.append(recommended_action)
         return feature_vector
 
 
+
     def calculate_mean(self, data):
-        if isinstance(data, dict):
-            numbers = [data[key] for key in data]
-            mean = statistics.mean(numbers)
-        else:
-            mean = float(sum(data)) / float(len(data))
+        mean = float(sum(data)) / float(len(data))
         return mean
 
 
     def calculate_std(self, data):
-        if isinstance(data, dict):
-            test = list(data.values())
-            std = np.std(test)
-        else:
-            std = np.std(data)
+        std = np.std(data)
         return std
 
 
@@ -63,32 +71,22 @@ class Preprocessor:
             rr_sqdiff.append(math.pow(rr_rate[counter] - rr_rate[counter + 1], 2))  # Calculate squared difference
             counter += 1
         rmssd = np.sqrt(np.mean(rr_sqdiff))  # Take root of the mean of the list of squared differences
-        # TODO set default value if rr_rate contains only 1 or 0 entries
-
         return rmssd
 
 
-    def preprocess_raw_data(self, heart_beat_rate, rr_rate, skin_temperature, gsr_resistance, motiontypes):
-        heart_beat_rate_prepro = {int(k): float(v) for k, v in heart_beat_rate.items()}
-        rr_interval_prepro = {int(k): float(v) for k, v in rr_rate.items()}
-        if skin_temperature is not None:
-            skin_temperature_prepro = {int(k): float(v) for k, v in skin_temperature.items()}
-        else:
+    def visualize_feature_vector_list(self,feature_vector_list):
+        feature_table = BeautifulTable(max_width=160)
+        feature_table.column_headers = ["M(GSR_Res)", "Std(GSR_Res)", "M(HBR)", "Std(HBR)", "M(RR)", "Std(RR)", \
+                                        "RMSSD(RR)", "M(Motion)", "Std(Motion)", "M(ST)", "Std(ST)", "Classified"]
+        for feature_vector in feature_vector_list:
+            feature_table.append_row(feature_vector)
 
-            # TODO think of some better handling for skin_temperature = None
-            skin_temperature_prepro = [27.0]
-        gsr_resistance_prepro = {int(k): float(v) for k, v in gsr_resistance.items()}
-        motiontypes_prepro = {int(k): float(v) for k, v in motiontypes.items()}
-        return heart_beat_rate_prepro, rr_interval_prepro, \
-               skin_temperature_prepro, gsr_resistance_prepro, motiontypes_prepro
+        print(feature_table)
 
 
 
 
 
-    def stream_handler(self, message):
-        print(message["data"])
-        print(message["event"])
 
 
 

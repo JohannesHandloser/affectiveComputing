@@ -1,4 +1,4 @@
-
+import collections
 import pyrebase
 import requests
 
@@ -30,28 +30,39 @@ class Wrapper:
 
     def get_data_from_pyrebase_object(self, entry):
         entry_val_obj = entry.val()
-        entry_val_obj_key = entry.key()
-        gsr_resistance = entry_val_obj["emotionalstate"]["gsrResistance"]
-        rr_rate = entry_val_obj["emotionalstate"]["rrRate"]
-        if "skinTemp" in entry_val_obj["emotionalstate"].keys():
-            skin_temperature = entry_val_obj["emotionalstate"]["skinTemp"]
-        else:
-            skin_temperature = None
-        heart_beat_rate = entry_val_obj["emotionalstate"]["heartBeatRate"]
-        motiontypes = entry_val_obj["emotionalstate"]["motiontypes"]
+        emotionalstate_list = collections.OrderedDict(entry_val_obj["emotionalstate"])
+        recommended_action = entry_val_obj["recommended_action"]
 
-        reward = entry_val_obj["reward"]
+        gsr_resistance = []
+        heart_beat_rate = []
+        rr_rate = []
+        motiontype = []
+        skin_temp = []
+        timestamps = [int(k) for k in emotionalstate_list.keys()]
+        for emotionalstate in emotionalstate_list.values():
 
-        playlist_nr = entry_val_obj["metadata"]["playlist"]
-        #song_name = entry_val_obj["song"]
+            gsr_resistance.append(emotionalstate["gsrResistance"])
+            heart_beat_rate.append(emotionalstate["heartBeatRate"])
+            rr_rate.append(emotionalstate["rrRate"])
+            motiontype.append(emotionalstate["motiontypes"])
+            skin_temp.append(emotionalstate["skinTemp"])
 
-        return entry_val_obj_key, playlist_nr, reward, heart_beat_rate, \
-               skin_temperature, rr_rate, gsr_resistance, motiontypes
+        return timestamps, gsr_resistance, heart_beat_rate, rr_rate, motiontype, skin_temp, recommended_action
 
 
 
-    def put_action_on_firebase(self, key, data):
-        self.db.child("return_action").child(key).set(data)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
