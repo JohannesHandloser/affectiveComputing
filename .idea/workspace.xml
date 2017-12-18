@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bc62ccd5-60be-46f8-9301-75c945ee8285" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classifier/classifier.py" afterPath="$PROJECT_DIR$/classifier/classifier.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -237,7 +235,14 @@
       <option name="project" value="LOCAL" />
       <updated>1512497667300</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="push for finalizing the helper classes">
+      <created>1513592770694</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1513592770694</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -273,7 +278,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="preprocessing and new connection for firebase done&#10;- now main loop over entries and ML Classifier" />
     <MESSAGE value="PCA done on some sample data" />
-    <option name="LAST_COMMIT_MESSAGE" value="PCA done on some sample data" />
+    <MESSAGE value="push for finalizing the helper classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="push for finalizing the helper classes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
