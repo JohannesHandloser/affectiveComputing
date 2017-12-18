@@ -1,9 +1,9 @@
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-import pandas as pd
-import numpy as np
 import plotly as py
 from plotly.graph_objs import *
+from helper.visuals import *
+
 
 
 
@@ -12,13 +12,15 @@ class Classifier:
 
     def __init__(self, feature_vector_list):
         self.feature_matrix = pd.DataFrame(feature_vector_list)
+        self.feature_matrix.columns = ["M(GSR_Res)", "Std(GSR_Res)", "M(HBR)", "Std(HBR)", "M(RR)", "Std(RR)", \
+                                        "RMSSD(RR)", "M(Motion)", "Std(Motion)", "M(ST)", "Std(ST)", "Classified"]
         # split data table into data X and class labels y
         self.data = self.feature_matrix.ix[:, 0:10].values
         self.labels = self.feature_matrix.ix[:, 11].values
         self.labels2 = self.labels.astype(str)
 
-
-
+        pd.plotting.scatter_matrix(self.feature_matrix, alpha = 0.2, figsize = (14,10), diagonal = 'kde')
+        plt.show()
 
 
     def plot_distr(self):
@@ -88,7 +90,11 @@ class Classifier:
         # py.offline.plot(fig)
 
         pca = PCA(n_components=2)
-        Y_sklearn = pca.fit_transform(standardized_data)
+        pca = pca.fit(standardized_data)
+
+        reduced_data = PCA.transform(standardized_data)
+
+        reduced_data = pd.DataFrame(reduced_data, columns=['Dimension 1', 'Dimension 2'])
 
         traces = []
 

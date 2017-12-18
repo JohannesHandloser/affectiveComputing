@@ -8,30 +8,33 @@ if __name__ == '__main__':
     preprocessor = Preprocessor()
     wrapper.auth_and_login()
 
-    # recommended_action = 0
-    node1 = wrapper.db.child("song_data_history").child("20171130182405_punky_2002").get()
-    node2 = wrapper.db.child("song_data").child("punky_2002").get()
-    #recommended_action = 1
-    node3 = wrapper.db.child("song_data_history").child("20171130182659_punky_2002").get()
 
+    data_list = []
 
-    data_list = [node1, node2, node3]
-
-
+    all_entries = wrapper.db.child("song_data_history").get()
+    for entry in all_entries.each():
+        entry_key = entry.key()
+        if "11127020586" in entry_key:
+            data_list.append(entry)
 
     for data in data_list:
-
         timestamps, gsr_resistance, heart_beat_rate, rr_rate, motiontype, \
         skin_temp, recommended_action = wrapper.get_data_from_pyrebase_object(data)
 
         preprocessor.calculate_feature_vector_list(timestamps, gsr_resistance, heart_beat_rate, \
-                                               rr_rate, motiontype, skin_temp, recommended_action)
+                                                   rr_rate, motiontype, skin_temp, recommended_action)
+    #
+    # feature_matrix = pd.DataFrame(preprocessor.feature_vector_list)
+    # feature_matrix.columns = ["M(GSR_Res)", "Std(GSR_Res)", "M(HBR)", "Std(HBR)", "M(RR)", "Std(RR)", \
+    #                           "RMSSD(RR)", "M(Motion)", "Std(Motion)", "M(ST)", "Std(ST)", "Classified"]
+
+
 
     classifier = Classifier(preprocessor.feature_vector_list)
+    classifier.do_PCA()
 
-    #classifier.do_PCA()
 
-    classifier.plot_distr()
+
 
 
 
