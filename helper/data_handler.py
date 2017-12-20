@@ -33,7 +33,6 @@ class DataHandler:
             self.preprocessor.calculate_feature_vector_list(timestamps, gsr_resistance, heart_beat_rate, \
                                                        rr_rate, motiontype, skin_temp, recommended_action)
 
-            print(data)
 
         # creates the whole pandas data Frame
         self.data_frame = pd.DataFrame(self.preprocessor.feature_vector_list)
