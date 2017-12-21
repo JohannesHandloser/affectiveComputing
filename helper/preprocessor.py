@@ -1,4 +1,4 @@
-import statistics
+from hrv.classical import time_domain
 import numpy as np
 import math
 from beautifultable import BeautifulTable
@@ -19,6 +19,7 @@ class Preprocessor:
             self.feature_vector_list.append(self.calculate_feature_vector(gsr_resistance[i:j], heart_beat_rate[i:j], \
                                                                           rr_rate[i:j], motiontype[i:j], skin_temp[i:j],\
                                                                           recommended_action))
+            self.calculate_rr_results(rr_rate[i:j])
 
 
     def calculate_feature_vector(self, gsr_resistance, heart_beat_rate, rr_rate, \
@@ -30,11 +31,20 @@ class Preprocessor:
         feature_vector.append(self.calculate_std(heart_beat_rate))
         feature_vector.append(self.calculate_mean(rr_rate))
         feature_vector.append(self.calculate_std(rr_rate))
-        feature_vector.append(self.calculate_rmssd(rr_rate))
+        #feature_vector.append(self.calculate_rmssd(rr_rate))
         feature_vector.append(self.calculate_mean(motiontype))
         feature_vector.append(self.calculate_std(motiontype))
         feature_vector.append(self.calculate_mean(skin_temp))
         feature_vector.append(self.calculate_std(skin_temp))
+
+        mhr, mrri, nn50, pnn50, rmssd, sdnn = self.calculate_rr_results(rr_rate)
+        feature_vector.append(mhr)
+        feature_vector.append(mrri)
+        feature_vector.append(nn50)
+        feature_vector.append(pnn50)
+        feature_vector.append(rmssd)
+        feature_vector.append(sdnn)
+
         feature_vector.append(recommended_action)
         return feature_vector
 
@@ -72,6 +82,15 @@ class Preprocessor:
             counter += 1
         rmssd = np.sqrt(np.mean(rr_sqdiff))  # Take root of the mean of the list of squared differences
         return rmssd
+
+    #pnn50 ~ Prozentsatz der Intervalle mit mindestens 50 ms Abweichung vom vorausgehenden Intervall
+    # (höhere Werte weisen auf vermehrte parasympathische Aktivität hin)
+    #
+    def calculate_rr_results(self, rr_rate):
+        rr_rate_millisec = [x * 1000 for x in rr_rate]
+        results  = time_domain(rr_rate_millisec)
+        return results['mhr'], results['mrri'], results['nn50'], results['pnn50'], results['rmssd'], results['sdnn']
+
 
 
     def visualize_feature_vector_list(self,feature_vector_list):

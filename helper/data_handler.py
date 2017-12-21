@@ -23,8 +23,8 @@ class DataHandler:
 
         for entry in all_entries.each():
             date_string = entry.key()[:14]
-            if int(date_string) >= 20171129224345:
-                data_list.append(entry)
+            #if int(date_string) >= 20171129224345:
+            data_list.append(entry)
 
         for data in data_list:
             timestamps, gsr_resistance, heart_beat_rate, rr_rate, motiontype, \
@@ -37,7 +37,8 @@ class DataHandler:
         # creates the whole pandas data Frame
         self.data_frame = pd.DataFrame(self.preprocessor.feature_vector_list)
         self.data_frame.columns = ["M(GSR_Res)", "Std(GSR_Res)", "M(HBR)", "Std(HBR)", "M(RR)", "Std(RR)", \
-                                      "RMSSD(RR)", "M(Motion)", "Std(Motion)", "M(ST)", "Std(ST)", "RecommendedAct"]
+                                   "M(Motion)", "Std(Motion)", "M(ST)", "Std(ST)", "MHR(RR)", "MRRI(RR)", "NN50(RR)", \
+                                   "PNN50(RR)", "RMSSD(RR)", "SDNN(RR)", "RecommendedAct"]
 
 
 
