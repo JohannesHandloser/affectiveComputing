@@ -2,7 +2,7 @@ from helper.data_handler import *
 
 if __name__ == '__main__':
 
-    data_handler = DataHandler()
+    data_handler = DataHandler("punky_2002")
 
 
 

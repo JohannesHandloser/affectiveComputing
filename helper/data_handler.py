@@ -6,25 +6,28 @@ import pandas as pd
 class DataHandler:
 
 
-    def __init__(self):
+    def __init__(self, user):
         self.wrapper = wrapper.Wrapper()
         self.preprocessor = preprocessor.Preprocessor()
         self.wrapper.auth_and_login()
-        self.read_out_entries(self.wrapper.db.child("song_data_history").get())
-
-        # split data table into data X and class labels y
-        self.data = self.data_frame.ix[:, 0:10].values
-        self.label = self.data_frame.ix[:, 11].values
+        self.read_out_entries(self.wrapper.db.child("song_data_history").get(), "punky_2002")
 
 
-
-    def read_out_entries(self, all_entries):
+    def read_out_entries(self, all_entries, user):
         data_list = []
 
         for entry in all_entries.each():
-            date_string = entry.key()[:14]
-            #if int(date_string) >= 20171129224345:
-            data_list.append(entry)
+            user_string =  entry.key()[15:]
+            if user == "all":
+                data_list.append(entry)
+            elif (user == "zarok01") & (user_string == "zarok01"):
+                data_list.append(entry)
+            elif (user == "punky_2002") & (user_string == "punky_2002"):
+                data_list.append(entry)
+            elif (user == "11127020586") & (user_string == "11127020586"):
+                data_list.append(entry)
+            elif (user == "1162656792") & (user_string == "1162656792"):
+                data_list.append(entry)
 
         for data in data_list:
             timestamps, gsr_resistance, heart_beat_rate, rr_rate, motiontype, \
