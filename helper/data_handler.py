@@ -10,7 +10,7 @@ class DataHandler:
         self.wrapper = wrapper.Wrapper()
         self.preprocessor = preprocessor.Preprocessor()
         self.wrapper.auth_and_login()
-        self.read_out_entries(self.wrapper.db.child("song_data_history").get(), "punky_2002")
+        self.read_out_entries(self.wrapper.db.child("song_data_history").get(), user)
 
 
     def read_out_entries(self, all_entries, user):
