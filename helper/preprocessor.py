@@ -8,9 +8,17 @@ class Preprocessor:
 
     def __init__(self):
         self.feature_vector_list =[]
+        self.target_vector_list =[]
 
-    # baevsky stress index (SI) -> aus RR rate berechnen
-    # modalwert -> am häufigsten aufgetretene wert
+    def calculate_target_vector_list(self, timestamps, gsr_resistance, heart_beat_rate, \
+                                      rr_rate, motiontype, skin_temp, recommended_action):
+        for i in range(0, len(timestamps) - 10):
+            j = i+10
+            self.target_vector_list.append(self.calculate_feature_vector(gsr_resistance[i:j], heart_beat_rate[i:j], \
+                                                                          rr_rate[i:j], motiontype[i:j], skin_temp[i:j],\
+                                                                          recommended_action))
+           # self.calculate_rr_results(rr_rate[i:j])
+
 
     def calculate_feature_vector_list(self, timestamps, gsr_resistance, heart_beat_rate, \
                                       rr_rate, motiontype, skin_temp, recommended_action):
@@ -19,7 +27,7 @@ class Preprocessor:
             self.feature_vector_list.append(self.calculate_feature_vector(gsr_resistance[i:j], heart_beat_rate[i:j], \
                                                                           rr_rate[i:j], motiontype[i:j], skin_temp[i:j],\
                                                                           recommended_action))
-            self.calculate_rr_results(rr_rate[i:j])
+            #self.calculate_rr_results(rr_rate[i:j])
 
 
     def calculate_feature_vector(self, gsr_resistance, heart_beat_rate, rr_rate, \
@@ -92,14 +100,6 @@ class Preprocessor:
         return results['mhr'], results['mrri'], results['nn50'], results['pnn50'], results['rmssd'], results['sdnn']
 
 
-
-    def visualize_feature_vector_list(self,feature_vector_list):
-        feature_table = BeautifulTable(max_width=160)
-        feature_table.column_headers = ["M(GSR_Res)", "Std(GSR_Res)", "M(HBR)", "Std(HBR)", "M(RR)", "Std(RR)", \
-                                        "RMSSD(RR)", "M(Motion)", "Std(Motion)", "M(ST)", "Std(ST)", "Classified"]
-        for feature_vector in feature_vector_list:
-            feature_table.append_row(feature_vector)
-        print(feature_table)
 
 
 
