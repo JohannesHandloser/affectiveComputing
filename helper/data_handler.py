@@ -28,7 +28,7 @@ class DataHandler:
                 elif (user == "1162656792") & (user_string == "1162656792"):
                     if track_day not in all_days:
                         all_days.append(track_day)
-                else:
+                elif (user == "all"):
                     if track_day not in all_days:
                         all_days.append(track_day)
         return all_days
