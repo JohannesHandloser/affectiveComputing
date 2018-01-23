@@ -20,6 +20,8 @@ class ClassificationHandler:
                 else:
                     traindf = pd.concat([traindf, value])
             self.do_training(type_of_classifier, testdf, traindf, day)
+        mean = float(sum(self.results.values())) / len(self.results)
+        self.results["average"] = mean
 
 
     def do_training(self, type_of_classifier, testdf, traindf, day):
