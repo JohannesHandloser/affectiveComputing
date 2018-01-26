@@ -5,10 +5,8 @@ import math
 
 class Preprocessor:
 
-
     def __init__(self):
         self.feature_vector_list =[]
-
 
     def calculate_feature_vector_list(self, timestamps, gsr_resistance, heart_beat_rate, \
                                       rr_rate, motiontype, skin_temp, recommended_action):
@@ -17,7 +15,6 @@ class Preprocessor:
             self.feature_vector_list.append(self.calculate_feature_vector(gsr_resistance[i:j], heart_beat_rate[i:j], \
                                                                           rr_rate[i:j], motiontype[i:j], skin_temp[i:j],\
                                                                           recommended_action))
-
 
     def calculate_feature_vector(self, gsr_resistance, heart_beat_rate, rr_rate, \
                                  motiontype, skin_temp, recommended_action):

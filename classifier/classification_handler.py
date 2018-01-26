@@ -1,49 +1,76 @@
 from helper.data_handler import *
 import sklearn.tree as tree
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 
 
 class ClassificationHandler:
-    def __init__(self, data_dict):
-        self.data_dict = data_dict
+    def __init__(self):
         self.results = dict()
 
-    def classify(self, type_of_classifier):
-        track_days = list(self.data_dict.keys())
-        for day in track_days:
-            testdf = pd.DataFrame()
-            traindf = pd.DataFrame()
-            for key, value in self.data_dict.items():
-                if day == key:
-                    testdf = pd.concat([testdf, value])
-                else:
-                    traindf = pd.concat([traindf, value])
-            self.do_training(type_of_classifier, testdf, traindf, day)
-        mean = float(sum(self.results.values())) / len(self.results)
-        self.results["average"] = mean
-
-
-    def do_training(self, type_of_classifier, testdf, traindf, day):
-        train_data_only = StandardScaler().fit_transform(traindf.iloc[:, :16])
+    def do_training_dt(self, testdf, traindf, track, split_size):
+        train_data_only = MinMaxScaler().fit_transform(traindf.iloc[:, :16])
         train_label = traindf.iloc[:, 16:]
-        test_data_only = StandardScaler().fit_transform(testdf.iloc[:, :16])
+        test_data_only = MinMaxScaler().fit_transform(testdf.iloc[:, :16])
         test_label = testdf.iloc[:, 16:]
-        score = 0.0
-        if type_of_classifier == "dt":
-            dt = tree.DecisionTreeClassifier(min_samples_split=100)
-            dt = dt.fit(train_data_only, train_label)
-            score = dt.score(test_data_only, test_label)
-        elif type_of_classifier == "rf":
-            forest = RandomForestClassifier(max_depth=15, n_estimators=20, random_state=42)
-            forest.fit(train_data_only, train_label)
-            score = forest.score(test_data_only, test_label)
-        self.results[day] = score
+        dt = tree.DecisionTreeClassifier(min_samples_split=split_size)
+        dt = dt.fit(train_data_only, train_label)
+        score = dt.score(test_data_only, test_label)
+        self.results[track] = score
+
+    def do_training_rf(self, testdf, traindf, track, max_depth, estimators):
+        train_data_only = MinMaxScaler().fit_transform(traindf.iloc[:, :16])
+        train_label = traindf.iloc[:, 16:]
+        test_data_only = MinMaxScaler().fit_transform(testdf.iloc[:, :16])
+        test_label = testdf.iloc[:, 16:]
+        forest = RandomForestClassifier(max_depth=max_depth, n_estimators=estimators, random_state=42)
+        forest.fit(train_data_only, train_label)
+        score = forest.score(test_data_only, test_label)
+        self.results[track] = score
+
+    def classify_dt(self, split_size, data_dict, test_flag):
+        if test_flag == "days" or test_flag == "songs":
+            test_data = list(data_dict.keys())
+            for data in test_data:
+                testdf = pd.DataFrame()
+                traindf = pd.DataFrame()
+                for key, value in data_dict.items():
+                    if data == key:
+                        testdf = pd.concat([testdf, value])
+                    else:
+                        traindf = pd.concat([traindf, value])
+                self.do_training_dt(testdf, traindf, data, split_size)
+            mean = float(sum(self.results.values())) / len(self.results)
+            self.results["average"] = mean
+        else:
+            df = pd.DataFrame()
+            for key, value in data_dict.items():
+                df = pd.concat([df, value])
+            traindf, testdf = train_test_split(df, test_size=0.2)
+            self.do_training_dt(testdf, traindf, "all", split_size)
+
+    def classify_rf(self, max_depth, estimators, data_dict, test_flag):
+        if test_flag == "days" or test_flag == "songs":
+            test_data = list(data_dict.keys())
+            for data in test_data:
+                testdf = pd.DataFrame()
+                traindf = pd.DataFrame()
+                for key, value in data_dict.items():
+                    if data == key:
+                        testdf = pd.concat([testdf, value])
+                    else:
+                        traindf = pd.concat([traindf, value])
+                self.do_training_rf(testdf, traindf, data, max_depth, estimators)
+            mean = float(sum(self.results.values())) / len(self.results)
+            self.results["average"] = mean
+        else:
+            df = pd.DataFrame()
+            for key, value in data_dict.items():
+                df = pd.concat([df, value])
+            traindf, testdf = train_test_split(df, test_size=0.2)
+            self.do_training_rf(testdf, traindf, "all", max_depth, estimators)
 
 
-
-
-
-
-
-
+    def clear_results(self):
+        self.results.clear()
