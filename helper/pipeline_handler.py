@@ -29,7 +29,9 @@ class PipelineHandler:
             if run.type_of_classifier == "dt":
                 result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.split_size)
                 run_results[run_key + " SPLITSIZE: " + str(run.split_size)] = result
+                self.ch.clear_results()
             elif run.type_of_classifier == "rf":
                 result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.n_estimator, run.max_depth)
                 run_results[run_key + " ESTIMATOR: " + str(run.n_estimator) + " DEPTH: " + str(run.max_depth)] = result
+                self.ch.clear_results()
         return run_results

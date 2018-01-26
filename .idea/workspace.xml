@@ -4,10 +4,7 @@
     <list default="true" id="bc62ccd5-60be-46f8-9301-75c945ee8285" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Vorlage_Klassifikator_Notebook.ipynb" afterPath="$PROJECT_DIR$/Vorlage_Klassifikator_Notebook.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classifier/classification_handler.py" afterPath="$PROJECT_DIR$/classifier/classification_handler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helper/data_handler.py" afterPath="$PROJECT_DIR$/helper/data_handler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helper/preprocessor.py" afterPath="$PROJECT_DIR$/helper/preprocessor.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helper/pipeline_handler.py" afterPath="$PROJECT_DIR$/helper/pipeline_handler.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -60,7 +57,7 @@
       <file leaf-file-name="classification_handler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/classifier/classification_handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
+            <state relative-caret-position="497">
               <caret line="56" column="39" lean-forward="true" selection-start-line="56" selection-start-column="39" selection-end-line="56" selection-end-column="39" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
@@ -69,21 +66,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pipeline_handler.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pipeline_handler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/helper/pipeline_handler.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="510">
-              <caret line="35" column="0" lean-forward="true" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+              <caret line="34" column="11" lean-forward="true" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="285">
+              <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -142,9 +139,9 @@
         <option value="$PROJECT_DIR$/helper/data_handler.py" />
         <option value="$PROJECT_DIR$/helper/preprocessor.py" />
         <option value="$PROJECT_DIR$/helper/run.py" />
-        <option value="$PROJECT_DIR$/helper/pipeline_handler.py" />
         <option value="$PROJECT_DIR$/classifier/classification_handler.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/helper/pipeline_handler.py" />
       </list>
     </option>
   </component>
@@ -360,7 +357,14 @@
       <option name="project" value="LOCAL" />
       <updated>1516737219691</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="made complete pipeline process: &#10; - Make list of RUN-Objects with specific settings and give it to the pipeline. Result is only printed yet&#10; - TODO: Nice export to view data&#10; - TODO: Random Generation of RUN-Objects">
+      <created>1516979652186</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1516979652186</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -373,7 +377,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32992327" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17902814" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18286446" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -407,7 +411,8 @@
     <MESSAGE value="added processing pipeline for classificators decision tree and random forest (for usage see slack with image). Could be improved with giving different parameters and include other classificators like SVM etc." />
     <MESSAGE value="small bug in data_handler for dataframe creation fixed" />
     <MESSAGE value="average over days now included" />
-    <option name="LAST_COMMIT_MESSAGE" value="average over days now included" />
+    <MESSAGE value="made complete pipeline process: &#10; - Make list of RUN-Objects with specific settings and give it to the pipeline. Result is only printed yet&#10; - TODO: Nice export to view data&#10; - TODO: Random Generation of RUN-Objects" />
+    <option name="LAST_COMMIT_MESSAGE" value="made complete pipeline process: &#10; - Make list of RUN-Objects with specific settings and give it to the pipeline. Result is only printed yet&#10; - TODO: Nice export to view data&#10; - TODO: Random Generation of RUN-Objects" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -723,9 +728,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/classifier/classification_handler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
+        <state relative-caret-position="497">
           <caret line="56" column="39" lean-forward="true" selection-start-line="56" selection-start-column="39" selection-end-line="56" selection-end-column="39" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
@@ -736,18 +751,8 @@
     <entry file="file://$PROJECT_DIR$/helper/pipeline_handler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
-          <caret line="35" column="0" lean-forward="true" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <caret line="34" column="11" lean-forward="true" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
