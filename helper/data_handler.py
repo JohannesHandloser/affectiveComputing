@@ -48,7 +48,8 @@ class DataHandler:
         for entry in all_entries.each():
             time_string = entry.key()[:14]
             song_length = entry.val()["metadata"]["audiofeatures"]["durationMs"]
-            if int(time_string) > 20171123113603 & song_length > 10000:
+            track_length = len(entry.val()["emotionalstate"])
+            if int(time_string) > 20171123113603 & song_length > 10000 & track_length > 20:
                 user_string = entry.key()[15:]
                 if (user == "zarok01") & (user_string == "zarok01"):
                     song_key, data_frame = self.helper_data_creation_song(entry)
@@ -102,20 +103,21 @@ class DataHandler:
         for entry in all_entries.each():
             time_string = entry.key()[:14]
             song_length = entry.val()["metadata"]["audiofeatures"]["durationMs"]
-            if int(time_string) > 20171123113603 & song_length > 10000:
+            track_length = len(entry.val()["emotionalstate"])
+            if int(time_string) > 20171123113603 & song_length > 10000 & track_length > 20:
                 user_string = entry.key()[15:]
                 if (user == "zarok01") & (user_string == "zarok01"):
-                    data_frame = self.helper_create_data(entry, data_frame)
+                    data_frame = pd.concat([data_frame, self.helper_create_data(entry)])
                 elif (user == "punky_2002") & (user_string == "punky_2002"):
-                    data_frame = self.helper_create_data(entry, data_frame)
+                    data_frame = pd.concat([data_frame, self.helper_create_data(entry)])
                 elif (user == "1162656792") & (user_string == "1162656792"):
-                    data_frame = self.helper_create_data(entry, data_frame)
+                    data_frame = pd.concat([data_frame, self.helper_create_data(entry)])
                 elif (user == "all"):
-                    data_frame = self.helper_create_data(entry, data_frame)
+                    data_frame = pd.concat([data_frame, self.helper_create_data(entry)])
         data_dict["all"] = data_frame
         return data_dict
 
-    def helper_create_data(self, entry, df):
+    def helper_create_data(self, entry):
         timestamps, gsr_resistance, heart_beat_rate, rr_rate, motiontype, \
         skin_temp, recommended_action = self.wrapper.get_data_from_pyrebase_object(entry)
         self.preprocessor.calculate_feature_vector_list(timestamps, gsr_resistance, heart_beat_rate, \
@@ -125,7 +127,7 @@ class DataHandler:
                               "M(Motion)", "Std(Motion)", "M(ST)", "Std(ST)", "MHR(RR)", "MRRI(RR)", "NN50(RR)", \
                               "PNN50(RR)", "RMSSD(RR)", "SDNN(RR)", "RecommendedAct"]
         self.preprocessor.clear_feature_vector_list()
-        return pd.concat([df, data_frame])
+        return data_frame
 
     def preprocessing_pipeline(self, all_entries, user, test_flag):
         if test_flag == "days":

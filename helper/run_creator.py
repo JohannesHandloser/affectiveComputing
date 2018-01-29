@@ -13,7 +13,7 @@ class RunCreator:
 
     def create_random_run_list(self, number_of_runs):
         random_run_list = []
-        i = 1
+        i = 0
         while i < number_of_runs:
             type_of_classifier = r.choice(self.types_of_classifier)
             if type_of_classifier == "dt":
@@ -25,7 +25,7 @@ class RunCreator:
                               max_depth=r.choice(self.rf_hyperparameters))
             elif type_of_classifier == "svm":
                 run_obj = Run(user=r.choice(self.users), test_data_flag=r.choice(self.test_data_sets), \
-                              type_of_classifier=type_of_classifier, kernel=self.svm_hyperparameters)
+                              type_of_classifier=type_of_classifier, kernel=r.choice(self.svm_hyperparameters))
             else:
                 # create run object with default parameters
                 run_obj = Run(user=r.choice(self.users), test_data_flag=r.choice(self.test_data_sets))
