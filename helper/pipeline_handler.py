@@ -8,13 +8,16 @@ class PipelineHandler:
         self.unprocessed_data = self.data_handler.unpreprocessed_data
 
     def pipeline_run(self, user="all", test_data_flag="all", type_of_classifier="dt", \
-                     split_size=100, n_estimator=15, max_depth=10):
+                     split_size=100, n_estimator=15, max_depth=10, kernel="linear"):
         data_dict = self.pipeline_data_preprocessing(user, test_data_flag)
         if type_of_classifier == "dt":
             self.ch.classify_dt(split_size, data_dict, test_data_flag)
             return self.ch.results
         elif type_of_classifier == "rf":
             self.ch.classify_rf(max_depth, n_estimator, data_dict, test_data_flag)
+            return self.ch.results
+        elif type_of_classifier == "svm":
+            self.ch.classify_svm(kernel, data_dict, test_data_flag)
             return self.ch.results
         else:
             print("Only available classifier are dt and rf")
@@ -34,4 +37,13 @@ class PipelineHandler:
                 result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.n_estimator, run.max_depth)
                 run_results[run_key + " ESTIMATOR: " + str(run.n_estimator) + " DEPTH: " + str(run.max_depth)] = result
                 self.ch.clear_results()
+            elif run.type_of_classifier == "svm":
+                result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.kernel)
+                run_results[run_key + " KERNEL: " + run.kernel] = result
+                self.ch.clear_results()
+
+
         return run_results
+
+
+

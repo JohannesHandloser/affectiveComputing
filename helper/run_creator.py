@@ -6,9 +6,10 @@ class RunCreator:
     def __init__(self):
         self.users = ["1162656792", "punky_2002", "zarok01", "all"]
         self.test_data_sets = ["songs", "days", "all"]
-        self.types_of_classifier = ["dt", "rf"]
+        self.types_of_classifier = ["dt", "rf", "svm"]
         self.dt_hyperparameters = [100, 500, 1000, 5000]
         self.rf_hyperparameters = [10, 20, 30]
+        self.svm_hyperparameters = ["linear", "rbf"]
 
     def create_random_run_list(self, number_of_runs):
         random_run_list = []
@@ -22,6 +23,9 @@ class RunCreator:
                 run_obj = Run(user=r.choice(self.users), test_data_flag=r.choice(self.test_data_sets), \
                               type_of_classifier=type_of_classifier, n_estimator=r.choice(self.rf_hyperparameters), \
                               max_depth=r.choice(self.rf_hyperparameters))
+            elif type_of_classifier == "svm":
+                run_obj = Run(user=r.choice(self.users), test_data_flag=r.choice(self.test_data_sets), \
+                              type_of_classifier=type_of_classifier, kernel=self.svm_hyperparameters)
             else:
                 # create run object with default parameters
                 run_obj = Run(user=r.choice(self.users), test_data_flag=r.choice(self.test_data_sets))
