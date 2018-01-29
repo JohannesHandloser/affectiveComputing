@@ -9,6 +9,7 @@ from sklearn import svm
 class ClassificationHandler:
     def __init__(self):
         self.results = dict()
+        self.dummyClassifierResults = dict()
 
     def do_training_dt(self, testdf, traindf, track, split_size):
         train_data_only = MinMaxScaler().fit_transform(traindf.iloc[:, :16])
@@ -102,6 +103,18 @@ class ClassificationHandler:
                 df = pd.concat([df, value])
             traindf, testdf = train_test_split(df, test_size=0.2)
             self.do_training_rf(testdf, traindf, "all", kernel)
+
+    def run_dummy_classifier(self,testdf, traindf):
+        strategies = ["stratified","most_frequent","prior","uniform","constant"]
+        DC = DummyClassifier(strategy="prior", random_state=None, constant="constant")
+
+        for strategy in strategies:
+            DC.strategy = strategy
+            DC.fit(traindf, testdf, sample_weight=None)
+            print (DC)
+        #   score = DC.score(test_data_only,test_label)
+        #   print (score)
+        #   print (DC.strategy  + "score: " + str(score))
 
     def clear_results(self):
         self.results.clear()
