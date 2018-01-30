@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from helper.data_handler import *
 from sklearn import svm
+from sklearn.dummy import DummyClassifier
 
 
 class ClassificationHandler:
@@ -102,7 +103,7 @@ class ClassificationHandler:
             for key, value in data_dict.items():
                 df = pd.concat([df, value])
             traindf, testdf = train_test_split(df, test_size=0.2)
-            self.do_training_rf(testdf, traindf, "all", kernel)
+            self.do_training_svm(testdf, traindf, "all", kernel)
 
     def run_dummy_classifier(self,testdf, traindf):
         strategies = ["stratified","most_frequent","prior","uniform","constant"]

@@ -14,7 +14,7 @@ if __name__ == "__main__":
     #pprint.pprint(result)
 
     run_creator = RunCreator()
-    random_run_list = run_creator.create_random_run_list(5)
+    random_run_list = run_creator.create_random_run_list(50)
     for run in random_run_list:
         pprint.pprint(run.__dict__, indent=5)
 

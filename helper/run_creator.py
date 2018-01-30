@@ -5,8 +5,8 @@ import random as r
 class RunCreator:
     def __init__(self):
         self.users = ["1162656792", "punky_2002", "zarok01", "all"]
-        self.test_data_sets = ["songs", "days", "all"]
-        self.types_of_classifier = ["dt", "rf", "svm"]
+        self.test_data_sets = ["days", "all"] ## songs are putted out because of long runtime
+        self.types_of_classifier = ["dt", "rf"] # ,svm long runtime
         self.dt_hyperparameters = [100, 500, 1000, 5000]
         self.rf_hyperparameters = [10, 20, 30]
         self.svm_hyperparameters = ["linear", "rbf"]
