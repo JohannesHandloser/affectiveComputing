@@ -10,7 +10,7 @@ class PipelineHandler:
 
 
     def pipeline_run(self, user="all", test_data_flag="all", type_of_classifier="dt", \
-                     split_size=100, n_estimator=15, max_depth=10, kernel="linear"):
+                     split_size=100, n_estimator=15, max_depth=10, kernel="linear", strategy="most_frequent"):
         data_dict = self.pipeline_data_preprocessing(user, test_data_flag)
         if type_of_classifier == "dt":
             self.ch.classify_dt(split_size, data_dict, test_data_flag)
@@ -20,6 +20,9 @@ class PipelineHandler:
             return self.ch.results
         elif type_of_classifier == "svm":
             self.ch.classify_svm(kernel, data_dict, test_data_flag)
+            return self.ch.results
+        elif type_of_classifier == "dummy":
+            self.ch.classify_dummy(strategy, data_dict, test_data_flag)
             return self.ch.results
         else:
             print("Only available classifier are dt, rf and svm")
@@ -42,6 +45,10 @@ class PipelineHandler:
             elif run.type_of_classifier == "svm":
                 result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.kernel)
                 run_results[run_key + " KERNEL: " + run.kernel] = c.deepcopy(result)
+                self.ch.clear_results()
+            elif run.type_of_classifier == "dummy":
+                result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.strategy)
+                run_results[run_key + " STRATEGY: " + run.strategy] = c.deepcopy(result)
                 self.ch.clear_results()
         return run_results
 

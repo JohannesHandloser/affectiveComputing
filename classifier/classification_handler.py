@@ -42,6 +42,39 @@ class ClassificationHandler:
         score = svc.score(test_data_only, test_label)
         self.results[track] = score
 
+    def do_training_dummy_classifier(self, testdf, traindf, data, strategy):
+        train_data_only = MinMaxScaler().fit_transform(traindf.iloc[:, :16])
+        train_label = traindf["RecommendedAct"].values.tolist()
+        test_data_only = MinMaxScaler().fit_transform(testdf.iloc[:, :16])
+        test_label = testdf["RecommendedAct"].values.tolist()
+        dummy_cl = DummyClassifier(strategy=strategy, random_state=None, constant="constant")
+        dummy_cl.fit(train_data_only, train_label, sample_weight=None)
+        score = dummy_cl.score(test_data_only, test_label)
+        self.results[data] = score
+
+
+    def classify_dummy(self, strategy, data_dict, test_flag):
+        if test_flag == "days" or test_flag == "songs":
+            test_data = list(data_dict.keys())
+            for data in test_data:
+                testdf = pd.DataFrame()
+                traindf = pd.DataFrame()
+                for key, value in data_dict.items():
+                    if data == key:
+                        testdf = pd.concat([testdf, value])
+                    else:
+                        traindf = pd.concat([traindf, value])
+                self.do_training_dummy_classifier(testdf, traindf, data, strategy)
+            mean = float(sum(self.results.values())) / len(self.results)
+            self.results["average"] = mean
+        else:
+            df = pd.DataFrame()
+            for key, value in data_dict.items():
+                df = pd.concat([df, value])
+            traindf, testdf = train_test_split(df, test_size=0.2)
+            self.do_training_dummy_classifier(testdf, traindf, "cross_validation", strategy)
+
+
     def classify_dt(self, split_size, data_dict, test_flag):
         if test_flag == "days" or test_flag == "songs":
             test_data = list(data_dict.keys())
@@ -61,7 +94,7 @@ class ClassificationHandler:
             for key, value in data_dict.items():
                 df = pd.concat([df, value])
             traindf, testdf = train_test_split(df, test_size=0.2)
-            self.do_training_dt(testdf, traindf, "all", split_size)
+            self.do_training_dt(testdf, traindf, "cross_validation", split_size)
 
     def classify_rf(self, max_depth, estimators, data_dict, test_flag):
         if test_flag == "days" or test_flag == "songs":
@@ -82,7 +115,7 @@ class ClassificationHandler:
             for key, value in data_dict.items():
                 df = pd.concat([df, value])
             traindf, testdf = train_test_split(df, test_size=0.2)
-            self.do_training_rf(testdf, traindf, "all", max_depth, estimators)
+            self.do_training_rf(testdf, traindf, "cross_validation", max_depth, estimators)
 
     def classify_svm(self, kernel, data_dict, test_flag):
         if test_flag == "days" or test_flag == "songs":
@@ -103,19 +136,8 @@ class ClassificationHandler:
             for key, value in data_dict.items():
                 df = pd.concat([df, value])
             traindf, testdf = train_test_split(df, test_size=0.2)
-            self.do_training_svm(testdf, traindf, "all", kernel)
+            self.do_training_svm(testdf, traindf, "cross_validation", kernel)
 
-    def run_dummy_classifier(self,testdf, traindf):
-        strategies = ["stratified","most_frequent","prior","uniform","constant"]
-        DC = DummyClassifier(strategy="prior", random_state=None, constant="constant")
-
-        for strategy in strategies:
-            DC.strategy = strategy
-            DC.fit(traindf, testdf, sample_weight=None)
-            print (DC)
-        #   score = DC.score(test_data_only,test_label)
-        #   print (score)
-        #   print (DC.strategy  + "score: " + str(score))
 
     def clear_results(self):
         self.results.clear()
