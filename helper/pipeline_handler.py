@@ -39,7 +39,6 @@ class PipelineHandler:
         time_start = time.time()
         Parallel(n_jobs=num_cores)(delayed(self.processJob)(run, run_results) for run in list_of_runs)
         time_end = time.time()
-
         print("Timediff: " + str(time_end - time_start))
         return run_results
 
