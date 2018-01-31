@@ -37,28 +37,30 @@ class PipelineHandler:
         num_cores = multiprocessing.cpu_count()
         print("Number of cores " + str(num_cores))
         time_start = time.time()
-        Parallel(n_jobs=num_cores)(delayed(self.processJob)(run, run_results) for run in list_of_runs)
+        run_results = Parallel(n_jobs=num_cores)(delayed(self.process_job)(run) for run in list_of_runs)
         time_end = time.time()
         print("Timediff: " + str(time_end - time_start))
         return run_results
 
-    def processJob(self, run, dict):
+    def process_job(self, run):
         run_key = "USER: " + run.user + " CL: " + run.type_of_classifier + " TESTDATA: " + run.test_data_flag
         if run.type_of_classifier == "dt":
             result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.split_size)
-            dict[run_key + " SPLITSIZE: " + str(run.split_size)] = c.deepcopy(result)
+            result_copy = c.deepcopy(result)
             self.ch.clear_results()
+            return {run_key + " SPLITSIZE: " + str(run.split_size) : result_copy}
         elif run.type_of_classifier == "rf":
-            result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.n_estimator,
-                                       run.max_depth)
-            dict[run_key + " ESTIMATOR: " + str(run.n_estimator) + " DEPTH: " + str(run.max_depth)] = c.deepcopy(
-                result)
+            result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.n_estimator, run.max_depth)
+            result_copy = c.deepcopy(result)
             self.ch.clear_results()
+            return {run_key + " ESTIMATOR: " + str(run.n_estimator) + " DEPTH: " + str(run.max_depth): result_copy}
         elif run.type_of_classifier == "svm":
             result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.kernel)
-            dict[run_key + " KERNEL: " + run.kernel] = c.deepcopy(result)
+            result_copy = c.deepcopy(result)
             self.ch.clear_results()
+            return {run_key + " KERNEL: " + run.kernel : result_copy}
         elif run.type_of_classifier == "dummy":
             result = self.pipeline_run(run.user, run.test_data_flag, run.type_of_classifier, run.strategy)
-            dict[run_key + " STRATEGY: " + run.strategy] = c.deepcopy(result)
+            result_copy = c.deepcopy(result)
             self.ch.clear_results()
+            return {run_key + " STRATEGY: " + run.strategy : result_copy}
