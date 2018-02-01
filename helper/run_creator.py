@@ -2,11 +2,12 @@ from helper.run import *
 import random as r
 
 
+# Class to build randomized run Objects. Available Hyperparameters are in the class variables
 class RunCreator:
     def __init__(self):
         self.users = ["1162656792", "punky_2002", "zarok01", "all"]
-        self.test_data_sets = ["days", "all"] ## songs are putted out because of long runtime
-        self.types_of_classifier = ["dt", "rf", "dummy"] # ,svm long runtime
+        self.test_data_sets = ["days", "all", "songs"]
+        self.types_of_classifier = ["dt", "rf", "dummy"]  # ,svm long runtime
         self.dt_hyperparameters = [100, 500, 1000, 5000]
         self.rf_hyperparameters = [10, 20, 30]
         self.svm_hyperparameters = ["linear", "rbf"]
@@ -36,5 +37,3 @@ class RunCreator:
                 random_run_list.append(run_obj)
                 i += 1
         return random_run_list
-
-

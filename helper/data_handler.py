@@ -3,7 +3,7 @@ import firebase.firebase_wrapper as wrapper
 import pandas as pd
 import collections
 
-
+# Class to preprocess data in the wanted structur
 class DataHandler:
     def __init__(self):
         self.wrapper = wrapper.Wrapper()

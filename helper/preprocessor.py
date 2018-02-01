@@ -2,18 +2,19 @@ from hrv.classical import time_domain
 import numpy as np
 import math
 
-
+# Helper Class to preprocess data
+# creates features by a sliding window of the size of 10 seconds and the slide of 1 second
+# returns features as feature vector list
 class Preprocessor:
-
     def __init__(self):
-        self.feature_vector_list =[]
+        self.feature_vector_list = []
 
     def calculate_feature_vector_list(self, timestamps, gsr_resistance, heart_beat_rate, \
                                       rr_rate, motiontype, skin_temp, recommended_action):
         for i in range(0, len(timestamps) - 10):
-            j = i+10
+            j = i + 10
             self.feature_vector_list.append(self.calculate_feature_vector(gsr_resistance[i:j], heart_beat_rate[i:j], \
-                                                                          rr_rate[i:j], motiontype[i:j], skin_temp[i:j],\
+                                                                          rr_rate[i:j], motiontype[i:j], skin_temp[i:j], \
                                                                           recommended_action))
 
     def calculate_feature_vector(self, gsr_resistance, heart_beat_rate, rr_rate, \
@@ -39,16 +40,13 @@ class Preprocessor:
         feature_vector.append(recommended_action)
         return feature_vector
 
-
     def calculate_mean(self, data):
         mean = float(sum(data)) / float(len(data))
         return mean
 
-
     def calculate_std(self, data):
         std = np.std(data)
         return std
-
 
     # RMSSD, the root mean square of successive differences between adjacent R-R intervals
     def calculate_rmssd(self, rr_rate):
@@ -56,34 +54,17 @@ class Preprocessor:
         rr_sqdiff = []
         counter = 0
         while (counter < (len(rr_rate)) - 1):
-            rr_diff.append(abs(rr_rate[counter] - rr_rate[counter + 1]))  # Calculate absolute difference between successive R-R interval
+            rr_diff.append(abs(rr_rate[counter] - rr_rate[
+                counter + 1]))  # Calculate absolute difference between successive R-R interval
             rr_sqdiff.append(math.pow(rr_rate[counter] - rr_rate[counter + 1], 2))  # Calculate squared difference
             counter += 1
         rmssd = np.sqrt(np.mean(rr_sqdiff))  # Take root of the mean of the list of squared differences
         return rmssd
 
-
-    #pnn50 ~ Prozentsatz der Intervalle mit mindestens 50 ms Abweichung vom vorausgehenden Intervall
-    # (höhere Werte weisen auf vermehrte parasympathische Aktivität hin)
-    #
     def calculate_rr_results(self, rr_rate):
         rr_rate_millisec = [x * 1000 for x in rr_rate]
-        results  = time_domain(rr_rate_millisec)
+        results = time_domain(rr_rate_millisec)
         return results['mhr'], results['mrri'], results['nn50'], results['pnn50'], results['rmssd'], results['sdnn']
-
 
     def clear_feature_vector_list(self):
         self.feature_vector_list.clear()
-
-
-
-
-
-
-
-
-
-
-
-
-

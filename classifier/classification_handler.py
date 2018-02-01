@@ -7,6 +7,9 @@ from sklearn import svm
 from sklearn.dummy import DummyClassifier
 
 
+# Class to handle the different Classificators
+# Available are SVM, Decision Tree, Random Forest, Dummy Classifier
+# Is able to deal with different hyperparameter settings given by the pipeline
 class ClassificationHandler:
     def __init__(self):
         self.results = dict()
@@ -52,7 +55,6 @@ class ClassificationHandler:
         score = dummy_cl.score(test_data_only, test_label)
         self.results[data] = score
 
-
     def classify_dummy(self, strategy, data_dict, test_flag):
         if test_flag == "days" or test_flag == "songs":
             test_data = list(data_dict.keys())
@@ -72,8 +74,7 @@ class ClassificationHandler:
             for key, value in data_dict.items():
                 df = pd.concat([df, value])
             traindf, testdf = train_test_split(df, test_size=0.2)
-            self.do_training_dummy_classifier(testdf, traindf, "cross_validation", strategy)
-
+            self.do_training_dummy_classifier(testdf, traindf, "average", strategy)
 
     def classify_dt(self, split_size, data_dict, test_flag):
         if test_flag == "days" or test_flag == "songs":
@@ -94,7 +95,7 @@ class ClassificationHandler:
             for key, value in data_dict.items():
                 df = pd.concat([df, value])
             traindf, testdf = train_test_split(df, test_size=0.2)
-            self.do_training_dt(testdf, traindf, "cross_validation", split_size)
+            self.do_training_dt(testdf, traindf, "average", split_size)
 
     def classify_rf(self, max_depth, estimators, data_dict, test_flag):
         if test_flag == "days" or test_flag == "songs":
@@ -115,7 +116,7 @@ class ClassificationHandler:
             for key, value in data_dict.items():
                 df = pd.concat([df, value])
             traindf, testdf = train_test_split(df, test_size=0.2)
-            self.do_training_rf(testdf, traindf, "cross_validation", max_depth, estimators)
+            self.do_training_rf(testdf, traindf, "average", max_depth, estimators)
 
     def classify_svm(self, kernel, data_dict, test_flag):
         if test_flag == "days" or test_flag == "songs":
@@ -136,8 +137,7 @@ class ClassificationHandler:
             for key, value in data_dict.items():
                 df = pd.concat([df, value])
             traindf, testdf = train_test_split(df, test_size=0.2)
-            self.do_training_svm(testdf, traindf, "cross_validation", kernel)
-
+            self.do_training_svm(testdf, traindf, "average", kernel)
 
     def clear_results(self):
         self.results.clear()
