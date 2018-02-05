@@ -13,6 +13,7 @@ class RunCreator:
         self.svm_hyperparameters = ["linear", "rbf"]
         self.dummy_hyperparameters = ["stratified", "most_frequent"]
 
+
     def create_random_run_list(self, number_of_runs):
         random_run_list = []
         i = 0
