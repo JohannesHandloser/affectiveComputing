@@ -6,8 +6,8 @@ import random as r
 class RunCreator:
     def __init__(self):
         self.users = ["1162656792", "punky_2002", "zarok01", "all"]
-        self.test_data_sets = ["days", "all", "songs"]
-        self.types_of_classifier = ["dt", "rf", "dummy"]  # ,svm long runtime
+        self.test_data_sets = ["days", "all"] # "songs"
+        self.types_of_classifier = ["dummy"]  # ,svm long runtime, "dt", "rf",
         self.dt_hyperparameters = [100, 500, 1000, 5000]
         self.rf_hyperparameters = [10, 20, 30]
         self.svm_hyperparameters = ["linear", "rbf"]
@@ -28,6 +28,9 @@ class RunCreator:
             elif type_of_classifier == "svm":
                 run_obj = Run(user=r.choice(self.users), test_data_flag=r.choice(self.test_data_sets), \
                               type_of_classifier=type_of_classifier, kernel=r.choice(self.svm_hyperparameters))
+            elif type_of_classifier == "dummy":
+                run_obj = Run(user=r.choice(self.users), test_data_flag=r.choice(self.test_data_sets), \
+                              type_of_classifier=type_of_classifier, strategy=r.choice(self.dummy_hyperparameters))
             else:
                 # create run object with default parameters
                 run_obj = Run(user=r.choice(self.users), test_data_flag=r.choice(self.test_data_sets))
