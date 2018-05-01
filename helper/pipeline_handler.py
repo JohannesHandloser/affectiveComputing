@@ -3,7 +3,6 @@ import copy as c
 import time
 from joblib import Parallel, delayed
 import multiprocessing
-from collections import OrderedDict
 
 
 # Class to handle the whole Pipeline Workflow

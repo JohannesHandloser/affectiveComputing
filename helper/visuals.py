@@ -62,7 +62,7 @@ def cluster_results(reduced_data, preds, centers):
     plot_data = pd.concat([predictions, reduced_data], axis=1)
 
     # Generate the cluster plot
-    fig, ax = plt.subplots(figsize=(14, 8))
+    fig, ax = plt.subplots(figsize=(20, 20))
 
     # Color map
     cmap = cm.get_cmap('gist_rainbow')
@@ -87,8 +87,9 @@ def cluster_results(reduced_data, preds, centers):
         "Cluster Learning on PCA-Reduced Data - Centroids Marked by Number\nTransformed Sample Data Marked by Black Cross");
 
 
-def biplot(good_data, reduced_data, pca):
+def biplot(good_data, reduced_data, pca, label_only):
     '''
+
     Produce a biplot that shows a scatterplot of the reduced
     data and the projections of the original features.
 
@@ -102,10 +103,10 @@ def biplot(good_data, reduced_data, pca):
     https://github.com/teddyroland/python-biplot
     '''
 
-    fig, ax = plt.subplots(figsize=(14, 8))
+    fig, ax = plt.subplots(figsize=(20, 20))
     # scatterplot of the reduced data
     ax.scatter(x=reduced_data.loc[:, 'Dimension 1'], y=reduced_data.loc[:, 'Dimension 2'],
-               facecolors='b', edgecolors='b', s=70, alpha=0.5)
+               facecolors='b', edgecolors='b', s=70, alpha=0.5, c=label_only, label=label_only)
 
     feature_vectors = pca.components_.T
 
@@ -117,11 +118,10 @@ def biplot(good_data, reduced_data, pca):
         ax.arrow(0, 0, arrow_size * v[0], arrow_size * v[1],
                  head_width=0.2, head_length=0.2, linewidth=2, color='red')
         ax.text(v[0] * text_pos, v[1] * text_pos, good_data.columns[i], color='black',
-                ha='center', va='center', fontsize=18)
+                ha='center', va='center', fontsize=16)
 
     ax.set_xlabel("Dimension 1", fontsize=14)
     ax.set_ylabel("Dimension 2", fontsize=14)
-    ax.set_title("PC plane with original feature projections.", fontsize=16);
     return ax
 
 
